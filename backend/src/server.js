@@ -9,7 +9,7 @@ const app = express();
 
 // ------------------------------ Mongoose DB Connection
 
-const URI = process.env.MONGO_URI || "mongodb://localhost/test";
+const URI = process.env.MONGO_URI || "mongodb://localhost/27017/local";
 
 mongoose.connect(
   URI,
