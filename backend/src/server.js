@@ -1,11 +1,27 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const middlewares = require("../src/middleware/middlewares");
 
 const app = express();
 
-//middleware
+// ------------------------------ Mongoose DB Connection
+
+const URI = process.env.MONGO_URI || "mongodb://localhost/test";
+
+mongoose.connect(
+  URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  },
+  () => {
+    console.log("connected to DB");
+  }
+);
+// ------------------------------  logger, header mgmt, CORS
 
 app.use(morgan("short"));
 app.use(helmet());
@@ -15,30 +31,21 @@ app.use(
   })
 );
 
+// ------------------------------ basic route  GET '/'
+
 app.get("/", (req, res) => {
   res.json({
     message: "Hello World"
   });
 });
 
-// not found
+// -------------------------------- MiddleWares
 
-app.use((req, res, next) => {
-  const error = new Error("Not Found - " + req.originalUrl);
-  res.status(404);
-  next(error);
-});
+app.use(middlewares.notFound);
 
-// error handling
+app.use(middlewares.errorHandler);
 
-app.use((error, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode);
-  res.json({
-    message: error.message,
-    stack: process.env.NODE_ENV === "production" ? null : error.stack
-  });
-});
+// -------------------------------- Listening on Port
 
 const port = process.env.PORT || 5000;
 
