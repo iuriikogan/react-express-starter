@@ -2,14 +2,17 @@ const express = require("express");
 
 const app = express();
 
+// --------------------------------- Not Found
+
 const notFound = app.use((req, res, next) => {
   const error = new Error("Not Found - " + req.originalUrl);
   res.status(404);
   next(error);
 });
 
+// ------------------------------- error handling
+
 const errorHandler =
-  // error handling middleware
 
   app.use((error, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;

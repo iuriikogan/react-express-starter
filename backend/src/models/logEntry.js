@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const Entry = new Schema(
+const LogEntry = new Schema(
   {
     Title: {
       type: String,
@@ -56,4 +56,4 @@ const Entry = new Schema(
   }
 );
 
-module.exports = mongoose.model("Entry", entrySchema);
+module.exports = mongoose.model("logEntry", LogEntry);
