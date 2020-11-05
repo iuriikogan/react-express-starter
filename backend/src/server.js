@@ -15,10 +15,8 @@ const app = express();
 
 // ------------------------------ Mongoose DB Connection
 
-const URI = process.env.MONGO_URI;
-
 mongoose.connect(
-  URI,
+  process.env.MONGO_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -57,7 +55,7 @@ app.use(middlewares.errorHandler);
 
 // -------------------------------- Listening on Port
 
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

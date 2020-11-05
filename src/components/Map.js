@@ -4,18 +4,19 @@ import ReactMapGL from "react-map-gl";
 
 export default function Map() {
   const [viewport, setViewport] = useState({
-    width: 1200,
-    height: 1200,
+    width: "100vw",
+    height: "100vh",
     latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 3
+    longitude: -98.4376,
+    zoom: 4
   });
 
   return (
     <ReactMapGL
+      mapStyle={"mapbox://styles/mapbox/dark-v10"}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       {...viewport}
       onViewportChange={nextViewport => setViewport(nextViewport)}
-    />
+    ></ReactMapGL>
   );
 }
