@@ -1,6 +1,7 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ReactMapGL from "react-map-gl";
+import { Context } from "../utils/Context";
 
 export default function Map() {
   const [viewport, setViewport] = useState({
@@ -10,6 +11,10 @@ export default function Map() {
     longitude: -98.4376,
     zoom: 4
   });
+
+  const { allLogs } = useContext(Context);
+
+  console.log(allLogs);
 
   return (
     <ReactMapGL

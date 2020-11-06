@@ -56,4 +56,4 @@ const LogEntry = new Schema(
   }
 );
 
-module.exports = mongoose.model("logEntry", LogEntry);
+module.exports = mongoose.model("LogEntry", LogEntry);

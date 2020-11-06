@@ -15,16 +15,26 @@ const app = express();
 
 // ------------------------------ Mongoose DB Connection
 
-mongoose.connect(
-  process.env.MONGO_URI,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  },
-  () => {
-    console.log("connected to DB");
-  }
-);
+const url = process.env.MONGO_URI;
+
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// --------------------------------------------Get the default connection
+
+const db = mongoose.connection;
+
+db.on("open", () => {
+  console.log("connected to db");
+});
+
+//---------------------Bind connection to error event (to get notification of connection errors)
+
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+
 
 // ------------------------------  logger, header mgmt, CORS, body parser
 
