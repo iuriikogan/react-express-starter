@@ -9,15 +9,14 @@ const logs = require("../src/api/logs");
 
 // ------------------------------ config DOTENV run an instance of express
 
-dotenv.config();
-
 const app = express();
 
 // ------------------------------ Mongoose DB Connection
+dotenv.config();
 
-const url = process.env.MONGO_URI;
+// const url = process.env.MONGO_URI;
 
-mongoose.connect(url, {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -33,8 +32,6 @@ db.on("open", () => {
 //---------------------Bind connection to error event (to get notification of connection errors)
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-
 
 // ------------------------------  logger, header mgmt, CORS, body parser
 

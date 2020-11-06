@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useState, useContext } from "react";
-import ReactMapGL from "react-map-gl";
-import { Context } from "../utils/Context";
+import { useState, useEffect } from "react";
+import ReactMapGL, { Marker } from "react-map-gl";
+// import { Context } from "../utils/Context";
 
 export default function Map() {
   const [viewport, setViewport] = useState({
@@ -9,12 +9,21 @@ export default function Map() {
     height: "100vh",
     latitude: 37.7577,
     longitude: -98.4376,
-    zoom: 4
+    zoom: 3
   });
 
-  const { allLogs } = useContext(Context);
+  // const { allLogs } = useContext(Context);
+  const [allLogs, setAllLogs] = useState([]);
 
-  console.log(allLogs);
+  useEffect(() => {
+    const url = "http://localhost:5000/api/logs";
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setAllLogs(data);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <ReactMapGL
@@ -22,6 +31,21 @@ export default function Map() {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       {...viewport}
       onViewportChange={nextViewport => setViewport(nextViewport)}
-    ></ReactMapGL>
+    >
+      {allLogs.map(log => {
+        return (
+          <Marker
+            latitude={log.Latitude}
+            longitude={log.Longitude}
+            offsetLeft={-20}
+            offsetTop={-10}
+          >
+            <div className="marker">
+              <h3>📍 {log.Title}</h3>
+            </div>
+          </Marker>
+        );
+      })}
+    </ReactMapGL>
   );
 }

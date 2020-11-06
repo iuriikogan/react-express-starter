@@ -1,12 +1,12 @@
 import React from "react";
 import Map from "./components/Map";
-import { ContextProvider } from "./utils/Context";
+// import { ContextProvider } from "./utils/Context";
 
 function App() {
   return (
-    <ContextProvider>
+    // <ContextProvider>
       <Map></Map>
-    </ContextProvider>
+  //   </ContextProvider>
   );
 }
 
