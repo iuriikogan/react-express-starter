@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
-// import { Context } from "../utils/Context";
+import { Context } from "../utils/Context";
 
 export default function Map() {
   // ----------------------------------------- set viewport state for map
@@ -15,21 +15,12 @@ export default function Map() {
 
   // ------------------------------------------ initialize state variables
 
-  const [allLogs, setAllLogs] = useState([]);
   const [showPopup, setShowPopup] = useState({});
   const [addEntryLocation, setAddEntryLocation] = useState(null);
 
-  // ----------------------------------- GET all logs from server and store in state
+  // -------------------------------------------- deconstruct allLogs from Context
 
-  useEffect(() => {
-    const url = "http://localhost:5000/api/logs";
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setAllLogs(data);
-      })
-      .catch(err => console.error(err));
-  }, []);
+  const { allLogs } = useContext(Context);
 
   // ------------------------------------- Show Add Marker Card on Double Click map
 
@@ -47,6 +38,7 @@ export default function Map() {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       {...viewport}
       onViewportChange={nextViewport => setViewport(nextViewport)}
+      doubleClickZoom={false}
       onDblClick={showAddMarkerPopup}
     >
       {/* map over all logs and render a marker and popup to each   */}
