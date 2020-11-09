@@ -3,3 +3,5 @@
 [1105/140704.883:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1105/184903.428:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1106/113629.144:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1108/170843.136:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\yuryk\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\4e6b8a1c-7586-472e-816c-4e0262b76b9b: The system cannot find the path specified. (0x3)
+[1108/170843.142:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

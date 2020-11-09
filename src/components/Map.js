@@ -2,29 +2,22 @@ import * as React from "react";
 import { useState, useContext } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { Context } from "../utils/Context";
+import AddEntryForm from "./AddEntryForm";
 
 export default function Map() {
-  // ----------------------------------------- set viewport state for map
-  const [viewport, setViewport] = useState({
-    width: "100vw",
-    height: "100vh",
-    latitude: 37.7577,
-    longitude: -98.4376,
-    zoom: 3
-  });
-
   // ------------------------------------------ initialize state variables
 
   const [showPopup, setShowPopup] = useState({});
+  //eslint-disable-next-line
   const [addEntryLocation, setAddEntryLocation] = useState(null);
 
   // -------------------------------------------- deconstruct allLogs from Context
 
-  const { allLogs } = useContext(Context);
+  const { allLogs, viewport, setViewport } = useContext(Context);
 
   // ------------------------------------- Show Add Marker Card on Double Click map
 
-  const showAddMarkerPopup = e => {
+  const showAddEntryPopup = e => {
     const [longitude, latitude] = e.lngLat;
     setAddEntryLocation({
       longitude,
@@ -39,14 +32,14 @@ export default function Map() {
       {...viewport}
       onViewportChange={nextViewport => setViewport(nextViewport)}
       doubleClickZoom={false}
-      onDblClick={showAddMarkerPopup}
+      onDblClick={showAddEntryPopup}
     >
       {/* map over all logs and render a marker and popup to each   */}
-
       {allLogs.map(log => {
         return (
           <>
             <Marker
+              key={log._id}
               latitude={log.Latitude}
               longitude={log.Longitude}
               offsetLeft={-20}
@@ -94,15 +87,12 @@ export default function Map() {
           </>
         );
       })}
-
-      {/* if AddEntryLocation exists show addEntry popup */}
-
       {addEntryLocation ? (
         <>
           <Marker
             latitude={addEntryLocation.latitude}
             longitude={addEntryLocation.longitude}
-            offsetLeft={-20}
+            offsetLeft={-10}
             offsetTop={-10}
           ></Marker>
           <Popup
@@ -110,15 +100,13 @@ export default function Map() {
             longitude={addEntryLocation.longitude}
             closeButton={true}
             closeOnClick={false}
-            dynamicPosition={true}
             onClose={() => {
               setAddEntryLocation(null);
             }}
+            dynamicPosition={true}
             anchor="top"
           >
-            <div>
-              <p> Enter your entry details</p>
-            </div>
+            <AddEntryForm />
           </Popup>
         </>
       ) : null}
