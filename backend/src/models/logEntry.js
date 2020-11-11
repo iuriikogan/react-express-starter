@@ -11,12 +11,12 @@ const LogEntry = new Schema(
     },
     Description: {
       type: String,
-      required: true,
+
       minLength: 3
     },
     Comments: {
       type: String,
-      required: true,
+
       minLength: 3
     },
     Rating: {
@@ -27,7 +27,7 @@ const LogEntry = new Schema(
     },
     Image: {
       type: String,
-      required: true,
+
       minLength: 3
     },
     visitDate: {

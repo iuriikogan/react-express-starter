@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
+import { listAllLogs } from "./Api";
 
 const Context = createContext();
 
 const ContextProvider = ({ children }) => {
   // ----------------------------------------- set viewport state for map
+
   const [viewport, setViewport] = useState({
     width: "100vw",
     height: "100vh",
@@ -14,17 +16,20 @@ const ContextProvider = ({ children }) => {
 
   const [allLogs, setAllLogs] = useState([]);
 
+  // ------------------------------------------------ fetch all log entries
+
+  const getEntries = async () => {
+    const logs = await listAllLogs();
+    setAllLogs(logs);
+  };
+
   useEffect(() => {
-    const url = "http://localhost:5000/api/logs";
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setAllLogs(data);
-      })
-      .catch(err => console.error(err));
+    getEntries();
   }, []);
 
-  const value = { allLogs, viewport, setViewport };
+  // -------------------------------------------------- pass values to contextProvider
+
+  const value = { allLogs, getEntries, viewport, setViewport };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };

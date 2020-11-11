@@ -16,11 +16,6 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const logEntry = new LogEntry(req.body);
-    if (logEntry.Title) {
-      res.status(400).json({
-        message: "Entry with the same name already exists"
-      });
-    }
     const createdEntry = await logEntry.save();
     res.json(createdEntry);
   } catch (error) {

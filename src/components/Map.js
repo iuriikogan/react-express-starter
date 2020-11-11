@@ -8,20 +8,20 @@ export default function Map() {
   // ------------------------------------------ initialize state variables
 
   const [showPopup, setShowPopup] = useState({});
-  //eslint-disable-next-line
+
   const [addEntryLocation, setAddEntryLocation] = useState(null);
 
   // -------------------------------------------- deconstruct allLogs from Context
 
-  const { allLogs, viewport, setViewport } = useContext(Context);
+  const { allLogs, getEntries, viewport, setViewport } = useContext(Context);
 
   // ------------------------------------- Show Add Marker Card on Double Click map
 
   const showAddEntryPopup = e => {
-    const [longitude, latitude] = e.lngLat;
+    const [Longitude, Latitude] = e.lngLat;
     setAddEntryLocation({
-      longitude,
-      latitude
+      Longitude,
+      Latitude
     });
   };
 
@@ -90,14 +90,14 @@ export default function Map() {
       {addEntryLocation ? (
         <>
           <Marker
-            latitude={addEntryLocation.latitude}
-            longitude={addEntryLocation.longitude}
+            latitude={addEntryLocation.Latitude}
+            longitude={addEntryLocation.Longitude}
             offsetLeft={-10}
             offsetTop={-10}
           ></Marker>
           <Popup
-            latitude={addEntryLocation.latitude}
-            longitude={addEntryLocation.longitude}
+            latitude={addEntryLocation.Latitude}
+            longitude={addEntryLocation.Longitude}
             closeButton={true}
             closeOnClick={false}
             onClose={() => {
@@ -106,7 +106,13 @@ export default function Map() {
             dynamicPosition={true}
             anchor="top"
           >
-            <AddEntryForm />
+            <AddEntryForm
+              location={addEntryLocation}
+              onClose={() => {
+                setAddEntryLocation(null);
+                getEntries();
+              }}
+            />
           </Popup>
         </>
       ) : null}
