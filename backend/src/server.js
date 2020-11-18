@@ -6,15 +6,16 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const middlewares = require("../src/middleware/middlewares");
 const logs = require("../src/api/logs");
+const { auth, requiresAuth } = require("express-openid-connect");
+const session = require("express-session");
 
 // ------------------------------ config DOTENV run an instance of express
 
 const app = express();
 
-// ------------------------------ Mongoose DB Connection
 dotenv.config();
 
-// const url = process.env.MONGO_URI;
+// ------------------------------ Mongoose DB Connection
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -44,12 +45,45 @@ app.use(
 );
 app.use(express.json());
 
-// ------------------------------ basic route  GET '/'
+app.use(
+  express.urlencoded({
+    extended: false
+  })
+);
+
+// ------------------------------ config express session
+
+app.use(
+  session({
+    secret: process.env.APP_SECRET || "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true
+    }
+  })
+);
+
+// ------------------------------ config auth
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: "shadjfoeRJEDLKJFHASfa34",
+  baseURL: "http://localhost:5000",
+  clientID: "ZO08C3IZuxKFrm1ztsKkme1dOj84kdfC",
+  issuerBaseURL: "https://iuriikogan.eu.auth0.com"
+};
+
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Hello World"
-  });
+  res.redirect("http://localhost:3000");
 });
 
 app.use("/api/logs", logs);

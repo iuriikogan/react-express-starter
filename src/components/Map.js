@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { Context } from "../utils/Context";
 import AddEntryForm from "./AddEntryForm";
+import Sidebar from "./Sidebar";
 
 export default function Map() {
   // ------------------------------------------ initialize state variables
@@ -34,6 +35,7 @@ export default function Map() {
       doubleClickZoom={false}
       onDblClick={showAddEntryPopup}
     >
+      <Sidebar />
       {/* map over all logs and render a marker and popup to each   */}
       {allLogs.map(log => {
         return (

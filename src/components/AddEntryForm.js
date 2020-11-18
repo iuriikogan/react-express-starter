@@ -6,6 +6,7 @@ const AddEntryForm = ({ location, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
+
     const onSubmit = async data => {
       
     try {
@@ -19,9 +20,8 @@ const AddEntryForm = ({ location, onClose }) => {
       setError(error.message);
       setIsLoading(false);
     }
-
-    console.log(data);
-  };
+};
+    
   return (
     <form className="add-entry-form" onSubmit={handleSubmit(onSubmit)}>
       {error ? <h3 className="error">{error}</h3> : null}
